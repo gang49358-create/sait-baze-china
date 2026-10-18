@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11110f">
+  <meta name="description" content="BAZE CHINA — современная одежда для неё и для него. Discover the collection.">
+  <title>BAZE CHINA — Contemporary Fashion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="announcement" data-i18n="announcement">Новая коллекция уже здесь · Доставка по всему миру</div>
+  <header class="site-header">
+    <a class="logo" href="#" aria-label="BAZE CHINA home">BAZE <span>CHINA</span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#shop" data-i18n="navShop">Коллекция</a>
+      <a href="#story" data-i18n="navStory">О бренде</a>
+      <a href="#contact" data-i18n="navContact">Контакты</a>
+    </nav>
+    <div class="header-actions">
+      <button class="language-toggle" id="languageToggle" aria-label="Switch language">EN</button>
+      <button class="cart-open" id="cartOpen" aria-label="Open shopping bag"><span data-i18n="bag">Корзина</span><span class="cart-count" id="cartCount">0</span></button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <img class="hero-image" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=2200&q=85" alt="" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=2200&q=85'">
+      <div class="hero-shade"></div>
+      <div class="hero-content">
+        <p class="eyebrow" data-i18n="heroEyebrow">THE NEW COLLECTION · 2026</p>
+        <h1 data-i18n="heroTitle">Стиль вне<br>времени.</h1>
+        <p class="hero-copy" data-i18n="heroCopy">Продуманные силуэты. Чистые линии. Твой характер.</p>
+        <a class="button button-light" href="#shop" data-i18n="heroButton">Открыть коллекцию <span>↗</span></a>
+      </div>
+      <div class="hero-index">01 / 03</div>
+    </section>
+
+    <section class="intro section-wrap" id="story">
+      <p class="eyebrow" data-i18n="introEyebrow">BAZE CHINA — OUR POINT OF VIEW</p>
+      <h2 data-i18n="introTitle">Меньше шума.<br><em>Больше смысла.</em></h2>
+      <p class="intro-copy" data-i18n="introCopy">Современная одежда для тех, кто выбирает уверенность вместо громких слов. Исследуй универсальные вещи, созданные для своего ритма.</p>
+    </section>
+
+    <section class="shop section-wrap" id="shop">
+      <div class="section-heading">
+        <div><p class="eyebrow" data-i18n="shopEyebrow">CURATED FOR YOU</p><h2 data-i18n="shopTitle">Выбери свой образ</h2></div>
+        <div class="filters" role="group" aria-label="Product filters">
+          <button class="filter active" data-filter="all" data-i18n="filterAll">Все</button>
+          <button class="filter" data-filter="women" data-i18n="filterWomen">Женское</button>
+          <button class="filter" data-filter="men" data-i18n="filterMen">Мужское</button>
+        </div>
+      </div>
+      <div class="product-grid" id="productGrid" aria-live="polite"></div>
+    </section>
+
+    <section class="campaign">
+      <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1800&q=85" alt="" loading="lazy">
+      <div class="campaign-overlay"></div>
+      <div class="campaign-content">
+        <p class="eyebrow" data-i18n="campaignEyebrow">MADE TO MOVE WITH YOU</p>
+        <h2 data-i18n="campaignTitle">Твой день.<br>Твои правила.</h2>
+        <a href="#shop" class="text-link" data-i18n="campaignButton">Найти свой образ ↗</a>
+      </div>
+    </section>
+
+    <section class="values section-wrap">
+      <article><span class="value-number">01</span><h3 data-i18n="value1Title">Осознанный выбор</h3><p data-i18n="value1Copy">Меньше случайных вещей — больше любимых.</p></article>
+      <article><span class="value-number">02</span><h3 data-i18n="value2Title">Сила простоты</h3><p data-i18n="value2Copy">Чистые формы, выразительные детали.</p></article>
+      <article><span class="value-number">03</span><h3 data-i18n="value3Title">Твой стиль</h3><p data-i18n="value3Copy">Одежда, которая работает на тебя.</p></article>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="footer-top">
+      <div><a class="logo footer-logo" href="#">BAZE <span>CHINA</span></a><p data-i18n="footerTagline">Одежда с характером.</p></div>
+      <div class="footer-links"><a href="#shop" data-i18n="navShop">Коллекция</a><a href="#story" data-i18n="navStory">О бренде</a><a href="#contact" data-i18n="navContact">Контакты</a></div>
+      <div class="footer-contact"><p data-i18n="footerOrder">Заказы и вопросы</p><a id="footerTelegram" href="https://t.me/" target="_blank" rel="noopener">Telegram ↗</a><a id="footerWhatsApp" href="https://wa.me/" target="_blank" rel="noopener">WhatsApp ↗</a></div>
+    </div>
+    <div class="footer-bottom"><span>© <span id="year"></span> BAZE CHINA</span><span data-i18n="footerRights">Все права защищены</span><a href="#" data-i18n="backTop">Наверх ↑</a></div>
+  </footer>
+
+  <div class="cart-backdrop" id="cartBackdrop"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="cart-header"><div><p class="eyebrow" data-i18n="bagEyebrow">YOUR SELECTION</p><h2 data-i18n="bagTitle">Твоя корзина</h2></div><button class="cart-close" id="cartClose" aria-label="Close cart">×</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-empty" id="cartEmpty"><span>✳</span><p data-i18n="emptyCart">Пока здесь пусто.</p><button class="text-link" id="continueShopping" data-i18n="continueShopping">Продолжить покупки ↗</button></div>
+    <div class="cart-bottom" id="cartBottom">
+      <div class="cart-total"><span data-i18n="total">Итого</span><strong id="cartTotal">€0</strong></div>
+      <label class="checkout-label" for="customerName" data-i18n="nameLabel">Твоё имя</label>
+      <input id="customerName" type="text" autocomplete="name" placeholder="Имя / Name">
+      <label class="checkout-label" for="customerNote" data-i18n="noteLabel">Размер или пожелания (необязательно)</label>
+      <textarea id="customerNote" rows="2" placeholder="Размер, цвет, доставка..."></textarea>
+      <p class="checkout-hint" data-i18n="checkoutHint">Выбери, куда отправить состав заказа. Оплата и доставка согласуются отдельно.</p>
+      <div class="checkout-buttons"><button class="button button-dark" id="orderTelegram">Заказать в Telegram ↗</button><button class="button button-outline" id="orderWhatsApp">Заказать в WhatsApp ↗</button></div>
+    </div>
+  </aside>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
