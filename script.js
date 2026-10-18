@@ -2,8 +2,8 @@
    Before publishing, set the Telegram username and WhatsApp number below.
    WhatsApp number must include country code, digits only (no +, spaces or dashes). */
 const STORE = {
-  telegramUsername: "YOUR_TELEGRAM_USERNAME",
-  whatsappNumber: "YOUR_WHATSAPP_NUMBER"
+  telegramUsername: "@dealbin",
+  whatsappNumber: "+79148153081"
 };
 
 const products = [
