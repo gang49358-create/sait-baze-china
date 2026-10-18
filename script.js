@@ -8,45 +8,57 @@ let users=DB.get('users',[]);
 if(!users.some(u=>u.role==='admin')){users.push({name:'Администратор',email:'admin@baze.cn',pass:'admin123',role:'admin'});DB.set('users',users)}
 let orders=DB.get('orders',[]),cart=DB.get('cart',[]),me=DB.get('me',null);
 
+const star=(x,y,s,d)=>`<path class="spk" style="animation-delay:${d}s;transform-origin:${x}px ${y}px;transform-box:fill-box" d="M${x} ${y-s}L${x+s/4} ${y-s/4}L${x+s} ${y}L${x+s/4} ${y+s/4}L${x} ${y+s}L${x-s/4} ${y+s/4}L${x-s} ${y}L${x-s/4} ${y-s/4}Z" fill="#fff"/>`;
+const shoe=(a,b,sp)=>`<svg viewBox="0 0 300 160"><ellipse cx="150" cy="146" rx="120" ry="9" fill="rgba(0,0,0,.4)"/><path d="M18 108c0-22 6-40 18-46l34-14c10 22 28 26 50 20 22 18 62 26 100 38 24 7 40 12 40 30v14H18z" fill="${a}" stroke="#061033" stroke-width="3" stroke-linejoin="round"/><path d="M18 120h264v16c0 4-3 6-7 6H26c-5 0-8-3-8-7z" fill="#e8f0ff" stroke="#061033" stroke-width="3"/><path d="M118 70l14 22M140 78l14 22M162 86l14 22" stroke="${b}" stroke-width="6" stroke-linecap="round"/><path d="M36 62c14 4 30 2 46-6l-6-8c-14 8-26 10-38 6z" fill="${b}" stroke="#061033" stroke-width="3"/><path d="M52 100c40-6 90 0 150 22" stroke="${b}" stroke-width="7" fill="none" stroke-linecap="round"/>${sp?star(120,62,10,0)+star(185,98,12,.4)+star(232,114,9,.8)+star(72,98,8,1.2)+star(150,102,7,.2)+star(98,84,6,1.5):''}</svg>`;
+const K={
+ hoodie:'<path d="M90 40L60 70 30 130l25 10 25-40v80h140v-80l25 40 25-10-30-60-30-30Q150 70 90 40z" /><path d="M120 30Q150 0 180 30Q150 55 120 30z" /><path d="M110 140h80l10 30H100z" />',
+ tee:'<path d="M95 30L50 55l18 40 24-10v90h116V85l24 10 18-40-45-25Q150 60 95 30z" />',
+ pants:'<path d="M95 20h110l10 165h-50l-15-100-15 100H85z" /><rect x="100" y="110" width="26" height="30" rx="4" /><rect x="174" y="110" width="26" height="30" rx="4" />',
+ puffer:'<path d="M90 35L55 65 35 150l30 8 20-50v80h130v-80l20 50 30-8-20-85-35-30Q150 60 90 35z" /><path d="M85 108h130M85 138h130M85 168h130" stroke-width="4" fill="none" />',
+ bomber:'<path d="M90 35L55 65 35 145l30 8 20-45v75h130v-75l20 45 30-8-20-80-35-30Q150 60 90 35z" /><rect x="85" y="168" width="130" height="14" rx="5" /><path d="M150 52v116" stroke-width="4" fill="none" />',
+ cap:'<path d="M60 120Q60 45 150 45Q240 45 240 120z" /><path d="M200 112Q275 108 285 132Q225 128 195 122z" />'
+};
+const cl=(k,a,b)=>`<svg viewBox="0 0 300 200"><g fill="${a}" stroke="#061033" stroke-width="3" stroke-linejoin="round">${K[k]}</g><text x="150" y="${k==='cap'?100:k==='pants'?70:125}" text-anchor="middle" font-family="Unbounded" font-weight="900" font-size="${k==='cap'?30:36}" fill="${b}">B</text></svg>`;
+const SZ=[38,39,40,41,42,43,44],CS=['S','M','L','XL'];
 const P=[
- {id:1,name:'Adidas Jeremy Scott Wings 1.0',tag:'Классика с крыльями',price:14900,c:['#1f6bff','#fff']},
- {id:2,name:'Adidas Jeremy Scott Wings 2.0',tag:'Белые с синим',price:15900,c:['#fff','#1f6bff']},
- {id:3,name:'Adidas Jeremy Scott Bear',tag:'Лимитированная пара',price:17500,c:['#0a2463','#6fa8ff']},
- {id:4,name:'Adidas Jeremy Scott Panda',tag:'Контрастный силуэт',price:16200,c:['#6fa8ff','#fff']},
- {id:5,name:'Adidas Jeremy Scott Tech',tag:'Лёгкая подошва',price:13800,c:['#2f80ff','#d6e6ff']},
- {id:6,name:'Adidas Jeremy Scott Ice',tag:'Ледяной синий',price:18900,c:['#d6e6ff','#0a2463']}
+ {id:1,t:'s',name:'Adidas Jeremy Scott Wings 1.0',tag:'Классика с крыльями',price:14900,v:()=>shoe('#2f7bff','#fff')},
+ {id:2,t:'s',name:'Adidas Jeremy Scott 2.0',tag:'Новая версия, белый с синим',price:15900,badge:'Новинка',v:()=>shoe('#fff','#2f7bff')},
+ {id:3,t:'s',name:'Nike Air Force 1 Swarovski',tag:'Белые, кристаллы Swarovski',price:21900,badge:'Кристаллы',v:()=>shoe('#f4f8ff','#8fb8ff',1)},
+ {id:4,t:'s',name:'Nike Air Force 1 Swarovski Blue',tag:'Синие, кристаллы Swarovski',price:23500,badge:'Кристаллы',v:()=>shoe('#1a4fd6','#cfe0ff',1)},
+ {id:5,t:'s',name:'Adidas Jeremy Scott 2.0 Night',tag:'Чёрно-синяя пара',price:16800,badge:'Новинка',v:()=>shoe('#0a1330','#2f7bff')},
+ {id:6,t:'s',name:'Adidas Jeremy Scott Bear',tag:'Лимитированная пара',price:17500,v:()=>shoe('#12286a','#7fb0ff')},
+ {id:7,t:'c',name:'Оверсайз-худи Baze',tag:'Плотный футер, свободный крой',price:7900,v:()=>cl('hoodie','#12286a','#fff')},
+ {id:8,t:'c',name:'Карго-брюки Wide',tag:'Широкий силуэт, накладные карманы',price:8900,v:()=>cl('pants','#0a1330','#2f7bff')},
+ {id:9,t:'c',name:'Пуховик-puffer',tag:'Объёмный, тёплый',price:18900,v:()=>cl('puffer','#1a4fd6','#fff')},
+ {id:10,t:'c',name:'Футболка Boxy Fit',tag:'Короткий крой boxy',price:3900,v:()=>cl('tee','#e8f0ff','#1a4fd6')},
+ {id:11,t:'c',name:'Бомбер Varsity',tag:'Тренд сезона',price:11900,v:()=>cl('bomber','#0a1330','#7fb0ff')},
+ {id:12,t:'c',name:'Кепка Baze',tag:'Вышитая буква B',price:2900,sz:['Uni'],v:()=>cl('cap','#2f7bff','#fff')}
 ];
-const SZ=[38,39,40,41,42,43,44];
-const shoe=(a,b)=>`<svg viewBox="0 0 300 160"><ellipse cx="150" cy="146" rx="120" ry="9" fill="rgba(10,36,99,.15)"/><path d="M18 108c0-22 6-40 18-46l34-14c10 22 28 26 50 20 22 18 62 26 100 38 24 7 40 12 40 30v14H18z" fill="${a}" stroke="#0a2463" stroke-width="3" stroke-linejoin="round"/><path d="M18 120h264v16c0 4-3 6-7 6H26c-5 0-8-3-8-7z" fill="#fff" stroke="#0a2463" stroke-width="3"/><path d="M118 70l14 22M140 78l14 22M162 86l14 22" stroke="${b}" stroke-width="6" stroke-linecap="round"/><path d="M36 62c14 4 30 2 46-6l-6-8c-14 8-26 10-38 6z" fill="${b}" stroke="#0a2463" stroke-width="3"/><path d="M52 100c40-6 90 0 150 22" stroke="${b}" stroke-width="7" fill="none" stroke-linecap="round"/></svg>`;
-
-/* UI helpers */
-function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2200)}
-function closeAll(){['#drawer','#modal','#shade'].forEach(s=>$(s).classList.remove('on'))}
-$('#shade').onclick=closeAll;
-function go(v){
-  if(v==='admin'&&!(me&&me.role==='admin'))v='profile';
-  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('show',s.id==='v-'+v));
-  document.querySelectorAll('#nav [data-go]').forEach(b=>b.classList.toggle('act',b.dataset.go===v));
-  if(v==='profile')renderProfile();if(v==='admin')renderAdmin();
-  closeAll();scrollTo({top:0,behavior:'smooth'});
-}
-document.querySelectorAll('#nav [data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
-
-/* Catalog */
 const picked={};
-$('#s1').innerHTML=shoe('#1f6bff','#fff');$('#s2').innerHTML=shoe('#fff','#1f6bff');
-$('#grid').innerHTML=P.map(p=>`<article class="card" data-id="${p.id}"><div class="pic">${shoe(...p.c)}</div><h3>${p.name}</h3><small>${p.tag}</small><div class="price">${rub(p.price)}</div><div class="sizes">${SZ.map(s=>`<button data-s="${s}">${s}</button>`).join('')}</div><button class="btn sm add">В корзину</button></article>`).join('');
-document.querySelectorAll('.card').forEach(c=>{
-  const id=+c.dataset.id;
-  c.querySelectorAll('.sizes button').forEach(b=>b.onclick=()=>{c.querySelectorAll('.sizes button').forEach(x=>x.classList.remove('on'));b.classList.add('on');picked[id]=+b.dataset.s});
-  c.querySelector('.add').onclick=()=>{
+$('#s1').innerHTML=shoe('#2f7bff','#fff');$('#s2').innerHTML=shoe('#fff','#2f7bff',1);
+function renderGrid(f){
+  const g=$('#grid');
+  g.innerHTML=P.filter(p=>f==='a'||p.t===f).map(p=>`<article class="card" data-id="${p.id}"><div class="pic">${p.v()}</div>${p.badge?`<span class="badge">${p.badge}</span>`:''}<h3>${p.name}</h3><small>${p.tag}</small><div class="price">${rub(p.price)}</div><div class="sizes">${(p.sz||(p.t==='s'?SZ:CS)).map(s=>`<button data-s="${s}">${s}</button>`).join('')}</div><button class="btn sm add">В корзину</button></article>`).join('');
+  g.querySelectorAll('.card').forEach(c=>{
+    c.onmousemove=e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`rotateY(${x*18}deg) rotateX(${-y*18}deg) translateY(-6px)`};
+    c.onmouseleave=()=>c.style.transform='';
+  });
+}
+$('#grid').onclick=e=>{
+  const c=e.target.closest('.card');if(!c)return;const id=+c.dataset.id;
+  const sb=e.target.closest('.sizes button');
+  if(sb){c.querySelectorAll('.sizes button').forEach(x=>x.classList.remove('on'));sb.classList.add('on');picked[id]=sb.dataset.s;return}
+  if(e.target.closest('.add')){
     if(!picked[id]){toast('Выбери размер');return}
     const f=cart.find(i=>i.id===id&&i.size===picked[id]);f?f.qty++:cart.push({id,size:picked[id],qty:1});
     saveCart();toast('Добавлено в корзину');
-  };
-  c.onmousemove=e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`rotateY(${x*18}deg) rotateX(${-y*18}deg) translateY(-6px)`};
-  c.onmouseleave=()=>c.style.transform='';
-});
+  }
+};
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));renderGrid(b.dataset.t)};
+renderGrid('s');
+/* Заставка с логотипом */
+$('#spn').innerHTML='BAZE CHINA'.split('').map((l,i)=>`<span style="animation-delay:${.4+i*.09}s">${l===' '?'&nbsp;':l}</span>`).join('');
+setTimeout(()=>$('#splash').classList.add('out'),2600);setTimeout(()=>$('#splash').remove(),3400);
 const st=$('#stage');
 document.addEventListener('mousemove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;st.style.transform=`rotateY(${x*30}deg) rotateX(${-y*24}deg)`});
 
