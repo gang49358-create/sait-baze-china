@@ -29,3 +29,22 @@ footer{text-align:center;padding:30px;opacity:.5;font-size:13px}
 .q button{background:var(--b);border:0;color:#fff;width:26px;height:26px;border-radius:50%}.box .btn{width:100%;margin-top:10px;text-align:center;display:block}
 .lnk{background:none;border:0;color:var(--c);text-decoration:underline;margin-top:12px;font-size:14px}
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--b);padding:12px 22px;border-radius:30px;z-index:900;transition:.4s}#toast.on{transform:translateX(-50%)}
+
+.scene{position:relative;width:200px;height:200px;margin:0 auto 20px;transform-style:preserve-3d;transition:transform .2s}
+.scene .cube{margin:45px auto}.ring{position:absolute;inset:0;border-radius:50%;border:2px dashed var(--c);opacity:.6}
+.r1{animation:r1 6s linear infinite}.r2{inset:20px;border-color:var(--b);animation:r2 8s linear infinite}
+@keyframes r1{to{transform:rotateX(70deg) rotateZ(360deg)}}@keyframes r2{to{transform:rotateY(70deg) rotateZ(-360deg)}}
+.t{font:900 clamp(24px,5vw,38px) Unbounded;text-align:center;margin-bottom:24px}
+#about,#rev{padding:40px 5%;max-width:1100px;margin:auto}
+.abg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;perspective:800px}
+.ab{background:var(--card);border:1px solid #1e6bff55;border-radius:18px;padding:26px;text-align:center;transition:.5s;transform-style:preserve-3d}
+.ab:hover{transform:rotateY(12deg) rotateX(6deg) translateZ(20px);box-shadow:0 0 35px var(--b)}.ab b{display:block;font:900 26px Unbounded;color:var(--c);margin-bottom:8px}
+.ap{text-align:center;max-width:650px;margin:24px auto 0;opacity:.8;line-height:1.6}
+.rl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.rv{background:var(--card);border:1px solid #1e6bff44;border-radius:16px;padding:18px;animation:up .6s both}.rv b{display:block}.rv .st{color:#ffd24a;margin:4px 0}.rv small{opacity:.5}
+@keyframes up{from{opacity:0;transform:translateY(30px) rotateX(-20deg)}}
+.stars button{background:none;border:0;font-size:30px;color:#444;padding:0 2px}.stars .on{color:#ffd24a}
+textarea{width:100%;min-height:90px;padding:12px;margin:6px 0;background:#080d1a;border:1px solid #1e6bff66;border-radius:10px;color:#fff;font:14px Manrope}
+.del{background:#c0243a!important;border-color:#c0243a!important;padding:5px 12px!important;font-size:12px!important}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px}.stat div{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:14px;text-align:center}.stat b{display:block;font:900 22px Unbounded;color:var(--c)}
+.ord{background:var(--card);border:1px solid #1e6bff44;border-radius:14px;padding:16px;margin-bottom:12px}

@@ -1,5 +1,5 @@
 // ===== НАСТРОЙКИ: замени на свои =====
-const CONFIG={tg:'bazechina',wa:'79000000000',adminEmail:'admin@baze.china',adminPass:'admin123'};
+const CONFIG={tg:'bazechina',wa:'79000000000',admins:[{email:'admin@baze.china',pass:'admin123'}]};
 // Фото кладите в папку img/ с именем из поля "img" (например img/jeremy-scott.jpg)
 const P=[
 {id:1,cat:'Кроссовки',n:'Adidas Jeremy Scott Wings',p:18900,img:'jeremy-scott.jpg',e:'👟',s:[38,39,40,41,42,43,44]},
@@ -13,6 +13,7 @@ const P=[
 {id:9,cat:'Вещи',n:'Рюкзак Urban Black',p:4900,img:'bag.jpg',e:'🎒',s:['Один размер']},
 {id:10,cat:'Вещи',n:'Шоппер Baze',p:1500,img:'shopper.jpg',e:'👜',s:['Один размер']}];
 const $=s=>document.querySelector(s),L=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},S=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),reviews=()=>L('bc_rev',[]);
 const fmt=n=>n.toLocaleString('ru-RU')+' ₽',h=btoa;
 let cat='Все',cart=L('bc_cart',[]);
 const me=()=>L('bc_me',null),users=()=>L('bc_users',[]),orders=()=>L('bc_orders',[]);
@@ -39,7 +40,8 @@ function send(w){const a=$('#adr').value.trim();if(!a)return toast('Укажит
  const txt=`Заказ №${id} — Baze China\nИмя: ${u.name}\nТел: ${u.phone}\nАдрес: ${a}\n${lines}\nИтого: ${fmt(total())}\nХочу оплатить заказ.`;
  const o=orders();o.unshift({id,email:u.email,name:u.name,phone:u.phone,adr:a,items:lines,sum:total(),st:'Новый',d:new Date().toLocaleString('ru-RU'),via:w});S('bc_orders',o);
  cart=[];cnt();navigator.clipboard?.writeText(txt).catch(()=>{});
- window.open(w==='tg'?`https://t.me/${CONFIG.tg}?text=${encodeURIComponent(txt)}`:`https://wa.me/${CONFIG.wa}?text=${encodeURIComponent(txt)}`,'_blank');
+ const url=(w==='tg'?`https://t.me/${CONFIG.tg}?text=${encodeURIComponent(txt)}`:`https://wa.me/${CONFIG.wa}?text=${encodeURIComponent(txt)}`);
+ window.open(url,'_blank');
  modal(`<h2>Заказ №${id} создан ✅</h2><p>Откроется чат — отправьте сообщение с заказом (текст уже скопирован). Продавец пришлёт реквизиты для оплаты.</p><button class="btn" onclick="close()">Готово</button>`)}
 // ===== Регистрация / вход / профиль =====
 function auth(m){const r=m==='reg';modal(`<h2>${r?'Регистрация':'Вход'}</h2>${r?'<input id="n" placeholder="Имя"><input id="ph" placeholder="Телефон">':''}<input id="em" type="email" placeholder="Email"><input id="pw" type="password" placeholder="Пароль (мин. 6 символов)"><button class="btn" onclick="${r?'reg()':'login()'}">${r?'Создать аккаунт':'Войти'}</button><button class="lnk" onclick="auth('${r?'login':'reg'}')">${r?'Уже есть аккаунт? Войти':'Нет аккаунта? Регистрация'}</button>`)}
@@ -48,14 +50,19 @@ function reg(){const n=$('#n').value.trim(),ph=$('#ph').value.trim(),em=$('#em')
  const u=users();if(u.some(x=>x.email===em))return toast('Такой email уже есть');
  const nu={name:n,phone:ph,email:em,pw:h(pw)};u.push(nu);S('bc_users',u);S('bc_me',nu);toast('Добро пожаловать!');close();prof()}
 function login(){const em=$('#em').value.trim().toLowerCase(),pw=$('#pw').value;
- if(em===CONFIG.adminEmail&&pw===CONFIG.adminPass){S('bc_me',{name:'Админ',phone:'-',email:em,admin:1});toast('Вход админа');close();return prof()}
+ if(CONFIG.admins.some(a=>a.email===em&&a.pass===pw)){S('bc_me',{name:'Админ',phone:'-',email:em,admin:1});close();location.href='admin.html';return}
  const u=users().find(x=>x.email===em&&x.pw===h(pw));if(!u)return toast('Неверный email или пароль');S('bc_me',u);toast('Вы вошли');close();prof()}
 function logout(){localStorage.removeItem('bc_me');close();toast('Вы вышли')}
 function prof(){const u=me();if(!u)return auth('login');
- const my=orders().filter(o=>u.admin||o.email===u.email);
- modal(`<h2>${u.admin?'Админ-панель':'Мой профиль'}</h2><div class="row"><span>Имя</span><b>${u.name}</b></div><div class="row"><span>Email</span><b>${u.email}</b></div><div class="row"><span>Телефон</span><b>${u.phone}</b></div><h2 style="margin-top:18px">${u.admin?'Все заказы':'Мои заказы'} (${my.length})</h2>${my.map(o=>`<div class="row" style="display:block"><b>№${o.id}</b> · ${o.d}<br><small>${u.admin?o.name+' · '+o.phone+' · '+o.adr+'<br>':''}${o.items.replace(/\n/g,'<br>')}</small><br><b>${fmt(o.sum)}</b> · ${u.admin?`<select onchange="st('${o.id}',this.value)" style="width:auto">${['Новый','Оплачен','Отправлен','Выдан','Отменён'].map(s=>`<option ${s===o.st?'selected':''}>${s}</option>`).join('')}</select>`:o.st}</div>`).join('')||'<p>Заказов пока нет</p>'}<button class="btn g" onclick="logout()">Выйти</button>`)}
-function st(id,v){const o=orders();o.find(x=>x.id===id).st=v;S('bc_orders',o);toast('Статус обновлён')}
+ if(u.admin){location.href='admin.html';return}
+ const my=orders().filter(o=>o.email===u.email);
+ modal(`<h2>Мой профиль</h2><div class="row"><span>Имя</span><b>${esc(u.name)}</b></div><div class="row"><span>Email</span><b>${esc(u.email)}</b></div><div class="row"><span>Телефон</span><b>${esc(u.phone)}</b></div><h2 style="margin-top:18px">Мои заказы (${my.length})</h2>${my.map(o=>`<div class="row" style="display:block"><b>№${o.id}</b> · ${o.d}<br><small>${esc(o.items).replace(/\n/g,'<br>')}</small><br><b>${fmt(o.sum)}</b> · ${o.st}</div>`).join('')||'<p>Заказов пока нет</p>'}<button class="btn g" onclick="logout()">Выйти</button>`)}
+function revForm(){if(!me())return toast('Войдите, чтобы оставить отзыв'),auth('login');
+ window.rt=5;modal(`<h2>Ваш отзыв</h2><div class="stars">${[1,2,3,4,5].map(i=>`<button class="on" onclick="setR(${i})">★</button>`).join('')}</div><textarea id="rx" maxlength="400" placeholder="Что понравилось?"></textarea><button class="btn" onclick="revSave()">Отправить</button>`)}
+function setR(n){rt=n;document.querySelectorAll('.stars button').forEach((b,i)=>b.classList.toggle('on',i<n))}
+function revSave(){const t=$('#rx').value.trim();if(t.length<3)return toast('Напишите пару слов');const u=me(),r=reviews();r.unshift({id:Date.now(),name:u.name,rt,t,d:new Date().toLocaleDateString('ru-RU')});S('bc_rev',r);close();revList();toast('Спасибо за отзыв!')}
+function revList(){const r=reviews();$('#rl').innerHTML=r.map(x=>`<div class="rv"><b>${esc(x.name)}</b><div class="st">${'★'.repeat(x.rt)}${'☆'.repeat(5-x.rt)}</div><p>${esc(x.t)}</p><small>${x.d}</small></div>`).join('')||'<p style="text-align:center;opacity:.6;grid-column:1/-1">Пока нет отзывов — будьте первым!</p>'}
 // ===== Запуск =====
 $('#bCart').onclick=showCart;$('#bProf').onclick=prof;
 const cu=$('#cur');if(matchMedia('(hover:hover)').matches){cu.style.display='grid';onmousemove=e=>{cu.style.left=e.clientX+'px';cu.style.top=e.clientY+'px'}}
-tabs();grid();cnt();setTimeout(()=>$('#pre').classList.add('off'),1600);
+tabs();grid();cnt();revList();const sc=$('.scene');addEventListener('mousemove',e=>sc.style.transform=`rotateY(${(e.clientX/innerWidth-.5)*50}deg) rotateX(${-(e.clientY/innerHeight-.5)*40}deg)`);setTimeout(()=>$('#pre').classList.add('off'),1600);
