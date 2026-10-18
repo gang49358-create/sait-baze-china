@@ -1,56 +1,13 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Baze China — оригинальные кроссовки</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div id="splash"><div class="sp-logo"><div class="ring"></div><div class="ring r2"></div><b>B</b></div><div class="sp-name" id="spn"></div><div class="sp-bar"><i></i></div></div>
-<div id="cur"><svg viewBox="0 0 44 44"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6fa8ff"/><stop offset="1" stop-color="#1f6bff"/></linearGradient></defs><circle cx="22" cy="22" r="20" fill="url(#g)" stroke="#fff" stroke-width="2.5"/><text x="22" y="30" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="900" font-size="22" fill="#fff">B</text></svg></div>
-
-<header>
-  <div class="logo">Baze<b>China</b></div>
-  <nav id="nav">
-    <button data-go="shop" class="act">Каталог</button>
-    <button data-go="profile">Профиль</button>
-    <button data-go="admin" id="adminTab" hidden>Админ</button>
-    <button class="cartbtn" id="openCart">Корзина<span id="cnt">0</span></button>
-  </nav>
-</header>
-
-<main>
-<section class="view show" id="v-shop">
-  <div class="hero">
-    <div>
-      <h1>Оригинальные кроссовки <em>в синем цвете</em></h1>
-      <p>Adidas Jeremy Scott и другие пары, которые выделяют тебя в толпе. Выбери размер, добавь в корзину и оформи заказ за минуту.</p>
-      <button class="btn" onclick="document.getElementById('catalog').scrollIntoView()">Смотреть каталог</button>
-    </div>
-    <div class="stage" id="stage">
-      <div class="cube"><i>B</i><i>B</i><i>B</i><i>B</i><i>B</i><i>B</i></div>
-      <div class="float f1" id="s1"></div>
-      <div class="float f2" id="s2"></div>
-    </div>
-  </div>
-  <h2 class="sec-title" id="catalog">Каталог</h2>
-  <div class="tabs" id="tabs"><button data-t="s" class="on">Кроссовки</button><button data-t="c">Одежда</button><button data-t="a">Всё</button></div>
-  <div class="grid" id="grid"></div>
-</section>
-
-<section class="view" id="v-profile"><div class="panel" id="profileBox"></div></section>
-<section class="view" id="v-admin"><div id="adminBox"></div></section>
-</main>
-<footer>© Baze China · Оригинальные вещи</footer>
-
-<div class="shade" id="shade"></div>
-<aside id="drawer"></aside>
-<div id="modal"></div>
-<div id="toast"></div>
-
-<script src="script.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Baze China — оригинальные вещи</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body>
+<div id="pre"><div class="pl">B</div><p>BAZE CHINA</p></div>
+<div id="cur">B</div>
+<header><a class="logo" href="#">B<span>AZE</span> CHINA</a>
+<nav><a href="#shop">Каталог</a><button id="bProf">Профиль</button><button id="bCart">Корзина <b id="cnt">0</b></button></nav></header>
+<section class="hero"><div class="cube"><i>B</i></div><h1>BAZE <em>CHINA</em></h1><p>Оригинальные кроссовки, одежда и аксессуары</p><a class="btn" href="#shop">Смотреть каталог</a></section>
+<section id="shop"><div class="tabs" id="tabs"></div><div class="grid" id="grid"></div></section>
+<footer>© Baze China · Заказ оформляется через Telegram или WhatsApp</footer>
+<div id="mod"><div class="box" id="box"></div></div><div id="toast"></div>
+<script src="script.js"></script></body></html>
